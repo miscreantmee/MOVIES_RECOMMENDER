@@ -1,7 +1,6 @@
 venv/
 
 .idea/
-main.py
 
-movies_dict.pkl
 siml.pkl
+
