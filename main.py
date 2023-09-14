@@ -37,7 +37,7 @@ def collapse(L):
     return L1
 
 
-movies = pd.read_csv('tmdb_5000_credits.csv')
+movies = pd.read_csv('tmdb_5000_movies.csv')
 credits = pickle.load(open('crdits.pkl','rb'))
 
 movies = movies.merge(credits,on='title')
