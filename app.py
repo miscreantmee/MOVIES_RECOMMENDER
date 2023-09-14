@@ -7,15 +7,10 @@ import requests
 
 
 def fetch_posters(movie_id):
-    url = "https://api.themoviedb.org/3/movie/{}?language=en-US".format(movie_id)
+    url = "https://api.themoviedb.org/3/movie/{}?api_key=1c5ac1007dba4d853b6b7312cb3fa3b0&language=en-US".format(movie_id)
     headers = {"accept": "application/json"}
     response = requests.get(url, headers=headers)
     data= response.json()
-    
-    st.text(data)
-    st.text(url)
-    
-    # print(data)
     return "https://image.tmdb.org/t/p/original" + data['poster_path']
 
 
@@ -38,9 +33,9 @@ def recommend(movie):
 
 
 if __name__ == '__main__':
-    movies_dict = pickle.load(open('/etc/secrets/movies_dict.pkl','rb'))
+    movies_dict = pickle.load(open('movies_dict.pkl','rb'))
     movies = pd.DataFrame(movies_dict)
-    similarity=pickle.load(open('/etc/secrets/siml.pkl','rb'))
+    similarity=pickle.load(open('siml.pkl','rb'))
     st.title('MOVIE RECOMMENDATION SYSTEM')
     selected_movie_name = st.selectbox(
         'How would you like to be contacted?',
@@ -50,7 +45,7 @@ if __name__ == '__main__':
 
         names,posters=recommend(selected_movie_name)
 
-        col1, col2, col3,col4 ,col5 = st.columns(3)
+        col1, col2, col3,col4 ,col5 = st.columns(5)
 
         with col1:
             st.header(names[0])
