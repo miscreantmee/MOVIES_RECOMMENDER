@@ -3,6 +3,41 @@ import ast
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import pickle
+import gdown
+
+def load_csv_from_google_drive(file_id, csv_file_name):
+    """
+    Load a CSV file from Google Drive into a DataFrame.
+
+    Parameters:
+    file_id (str): The file ID of the CSV file in Google Drive.
+    csv_file_name (str): The desired file name for saving the CSV file locally.
+
+    Returns:
+    pd.DataFrame: The DataFrame containing the CSV data.
+    """
+    # Construct the download link
+    url = f'https://drive.google.com/uc?id={file_id}'
+
+    # Download the CSV file
+    gdown.download(url, csv_file_name, quiet=False)
+
+    # Load CSV into a DataFrame
+    df = pd.read_csv(csv_file_name)
+
+    return df
+
+# Example usage
+if __name__ == "__main__":
+    file_id = 'YOUR_FILE_ID'  # Replace with your file ID
+    csv_file_name = 'example.csv'  # Replace with your desired CSV file name
+
+    # Load the CSV file into a DataFrame
+    df = load_csv_from_google_drive(file_id, csv_file_name)
+
+    # Display the DataFrame
+    print(df.head())
+
 
 
 def convert(text):
@@ -37,8 +72,8 @@ def collapse(L):
     return L1
 
 
-movies = pd.read_csv('tmdb_5000_movies.csv')
-credits = pickle.load(open('crdits.pkl','rb'))
+movies = load_csv_from_google_drive('1PgNO9Wlz6Nwlxf5Rph-in_Q8WNH_L8hF','movies.csv')
+credits = load_csv_from_google_drive('1TGNw6x7WCgZSasl4kWTLWw1aG7LAhVQK','crdits.csv')
 
 movies = movies.merge(credits,on='title')
 

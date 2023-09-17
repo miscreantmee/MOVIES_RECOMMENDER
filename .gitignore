@@ -4,3 +4,6 @@ venv/
 
 siml.pkl
 
+__pycache__/main.cpython-310.pyc
+crdits.csv
+movies.csv
