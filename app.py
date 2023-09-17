@@ -2,7 +2,33 @@ import streamlit as st
 import pickle
 import pandas as pd
 import requests
-import main
+import gdown
+
+
+
+def load_pickle_from_google_drive(file_id, pickle_file_name):
+    """
+    Load a pickle file from Google Drive.
+
+    Parameters:
+    file_id (str): The file ID of the pickle file in Google Drive.
+    pickle_file_name (str): The desired file name for saving the pickle file locally.
+
+    Returns:
+    object: The object loaded from the pickle file.
+    """
+    # Construct the download link
+    url = f'https://drive.google.com/uc?id={file_id}'
+
+    # Download the pickle file
+    gdown.download(url, pickle_file_name, quiet=False)
+
+    # Load the pickle file
+    with open(pickle_file_name, 'rb') as f:
+        data = pickle.load(f)
+
+    return data
+
 
 
 
@@ -35,7 +61,7 @@ def recommend(movie):
 if __name__ == '__main__':
     movies_dict = pickle.load(open('movies_dict.pkl','rb'))
     movies = pd.DataFrame(movies_dict)
-    similarity=pickle.load(open('siml.pkl','rb'))
+    similarity= load_pickle_from_google_drive('11Wd1BSh3vHgAO6bD6XgbRaTH72gkShXB')
     st.title('MOVIE RECOMMENDATION SYSTEM')
     selected_movie_name = st.selectbox(
         'How would you like to be contacted?',
