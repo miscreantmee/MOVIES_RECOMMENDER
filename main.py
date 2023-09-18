@@ -16,6 +16,12 @@ def load_csv_from_google_drive(file_id, csv_file_name):
     Returns:
     pd.DataFrame: The DataFrame containing the CSV data.
     """
+
+     # Check if data is cached
+    cache_path = f'cache/{csv_file_name}.pkl'
+    if os.path.exists(cache_path):
+        return pd.read_pickle(cache_path)
+    
     # Construct the download link
     url = f'https://drive.google.com/uc?id={file_id}'
 
@@ -25,7 +31,24 @@ def load_csv_from_google_drive(file_id, csv_file_name):
     # Load CSV into a DataFrame
     df = pd.read_csv(csv_file_name)
 
+    # Save to cache
+    df.to_pickle(cache_path)
+
+
     return df
+
+def filter_movies_by_vote_average(movies_df, threshold=7.8):
+    """
+    Filter movies based on vote average.
+
+    Parameters:
+    movies_df (pd.DataFrame): DataFrame containing movie data.
+    threshold (float): Minimum vote average to consider.
+
+    Returns:
+    pd.DataFrame: Filtered DataFrame containing movies with vote average above the threshold.
+    """
+    return movies_df[movies_df['vote_average'] > threshold]
 
 # Example usage
 if __name__ == "__main__":
@@ -74,6 +97,9 @@ def collapse(L):
 
 movies = load_csv_from_google_drive('1PgNO9Wlz6Nwlxf5Rph-in_Q8WNH_L8hF','movies.csv')
 credits = load_csv_from_google_drive('1TGNw6x7WCgZSasl4kWTLWw1aG7LAhVQK','crdits.csv')
+
+# Filter movies based on vote average
+movies = filter_movies_by_vote_average(movies)
 
 movies = movies.merge(credits,on='title')
 
