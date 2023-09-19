@@ -64,7 +64,7 @@ if __name__ == '__main__':
     similarity= load_pickle_from_google_drive('11Wd1BSh3vHgAO6bD6XgbRaTH72gkShXB','siml.pkl')
     st.title('MOVIE RECOMMENDATION SYSTEM')
     selected_movie_name = st.selectbox(
-        'How would you like to be contacted?',
+        'Select a movie',
         movies['title'].values)
 
     if st.button('Recommend'):
