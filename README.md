@@ -13,6 +13,7 @@ Demo
 
 Check out this short video to see the Movie Recommendation System in action:
 
+Output video.mp4
 
 Watch the full video demo for a more detailed demonstration.
 
